@@ -1,0 +1,7 @@
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+Flask-SocketIO
+Flask-Bcrypt
+Werkzeug
+APScheduler
