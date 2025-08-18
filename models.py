@@ -10,26 +10,30 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(20), nullable=False, default='investor')
-    email = db.Column(db.String(120), unique=True, nullable=False) # Changed to nullable=False
+    email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.String(20), nullable=True)
-    email_verified = db.Column(db.Boolean, default=False) # New field
-    email_verification_token = db.Column(db.String(256), unique=True, nullable=True) # New field
+    email_verified = db.Column(db.Boolean, default=False)
+    email_verification_token = db.Column(db.String(256), unique=True, nullable=True)
 
     def set_password(self, password):
+        """Hashes the password and stores it safely"""
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password):
+        """Checks password against hash"""
         return bcrypt.check_password_hash(self.password_hash, password)
 
     def to_dict(self):
+        """Expose safe user fields"""
         return {
             'id': self.id,
             'username': self.username,
             'role': self.role,
             'email': self.email,
             'phone': self.phone,
-            'email_verified': self.email_verified # Include in dict
+            'email_verified': self.email_verified
         }
+
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
